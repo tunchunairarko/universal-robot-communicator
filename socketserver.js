@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 var WebSocketServer = require('websocket').server;
+require("dotenv").config();
 var http = require('http');
 var now = new Date;
 import { io } from "socket.io-client";
-const internal_socketio = io("ws://localhost:5000");
+const internal_socketio = io("ws://localhost:7000");
 
 
 const to_f = () =>{
@@ -17,7 +18,7 @@ var server = http.createServer(function(request, response) {
     response.writeHead(404);
     response.end();
 });
-server.listen(5452, function() {
+server.listen(process.env.PORT, function() {
     console.log((new Date()) + ' Server is listening on port 5452');
     console.log(to_f())
     // console.log('timestamp '+utc_timestamp)
