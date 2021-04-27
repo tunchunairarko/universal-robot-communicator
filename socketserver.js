@@ -1,14 +1,16 @@
 #!/usr/bin/env node
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url);
 var WebSocketServer = require('websocket').server;
 require("dotenv").config();
 var http = require('http');
 var now = new Date;
 import { io } from "socket.io-client";
-const internal_socketio = io("ws://localhost:7000");
+const internal_socketio = io("ws://localhost:5000");
 
 
 const to_f = () =>{
-    x = new Date()
+    var x = new Date()
     var UTCseconds = (x.getTime() + x.getTimezoneOffset()*60*1000)/1000;
     return UTCseconds;
 }
@@ -19,12 +21,12 @@ var server = http.createServer(function(request, response) {
     response.end();
 });
 server.listen(process.env.PORT, function() {
-    console.log((new Date()) + ' Server is listening on port 5452');
+    console.log((new Date()) + ' Server is listening on port '+process.env.PORT);
     console.log(to_f())
     // console.log('timestamp '+utc_timestamp)
 });
 
-wsServer = new WebSocketServer({
+var wsServer = new WebSocketServer({
     httpServer: server,
     // You should not use autoAcceptConnections for production
     // applications, as it defeats all standard cross-origin protection
